@@ -17,6 +17,7 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{Sensor}
 %TODO
 \class{Sensorthing}
+\changedFunctions
 \begin{itemize}[noitemsep]
     \item Die Java-Standart Funktion \textit{equals(Object other)} wurde aus den von Sensothing erbenden Klassen in die Klasse Sensorthing verschoben.
 \end{itemize}
@@ -36,19 +37,19 @@ Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnitt
 \subsubsection{Controller}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Links
 \class{MultiLocalLink}
-%TODO
+\noChange
 \class{MultiNavigationLink}
-%TODO
+\noChange
 \class{MultiOnlineLink}
-%TODO
+\noChange
 \class{NavigationLink}
-%TODO
+\noChange
 \class{SingleLocalLink}
-%TODO
+\noChange
 \class{SingleNavigationLink}
-%TODO
+\noChange
 \class{SingleOnlineLink}
-%TODO
+\noChange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Controller
 \class{DatastreamController}
 %TODO
@@ -71,7 +72,18 @@ Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnitt
 \class{UtilityController}
 %TODO
 \class{WebUtilityController}
-%TODO
+Der WebUtilityController wurde neu hinzugefügt. Die hauptsächliche Verwendung liegt in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
+
+Hierfür wurde die Methode
+\begin{lstlisting}[language=java]
+    /**
+     * Returns the server-software-version.
+     * 
+     * @return The software-version
+     */
+    public String versionPage() {[...]}
+\end{lstlisting}
+implementiert
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Interpolation
 \class{DefaultInterpolation}
 %TODO
@@ -82,7 +94,33 @@ Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnitt
 
 \subsubsection{Sonstige}
 \class{DedupingResolver}
-Die Klasse DedupingResolver ist gegenüber dem Entwurf neu hinzugekommen. Sie wird verwendte um %TODO
+Die Klasse DedupingResolver ist gegenüber dem Entwurf neu hinzugekommen.
+\\
+Die Klasse behebt Serialisierungsprobleme bei der \gls{JSON}-Serialisierung.
+
+Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
+\begin{lstlisting}[frame=single, language=json]
+{
+    "title": "Harry Potter and the Philosopher's Stone",
+    "authors": [
+        {
+            "name": "JK Rowling"
+        }
+    ]
+},
+{
+    "title": "Harry Potter and the Chamber of Secrets",
+    "authors": [
+        {
+            "name": "JK Rowling"
+        }
+    ]
+}
+\end{lstlisting}
+Hierbei repräsentiert \textit{authors} eine Hashmap.
+Das Serialisierungsproblem besteht hierbei darin, dass das Untergeordnete Attribut \textit{authors} in einer einfachen Serialisierung doppelt vorkommt obwohl es sich um verschiedene Datensätze handelt.
+Dieses Problem wird durch den DedupingResolver gelöst, indem Hashmaps besser serialisiert werden.
+Hierfür erweitert er die Klasse SimpleObjectIdResolver, der sonst hierfür genutzt wird.
 \class{RestConstants}
 \noChange
 \class{VisAQ}
