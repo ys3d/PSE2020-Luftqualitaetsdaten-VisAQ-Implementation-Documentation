@@ -1,0 +1,18 @@
+\subsection{Backend}
+\subsubsection{Test-Konzept}
+Im Backend werden JUnit\footnote{\url{https://junit.org/}} Tests verwendet, es werden hierbei Tests für die JUnit Version 5 geschrieben.
+Um die Qualität und die Code-Abdeckung der Testfälle zu beurteilen wird das System Pitest\footnote{\url{https://pitest.org/}} verwendet.
+Pitest führt Mutation Testing\footnote{\url{https://en.wikipedia.org/wiki/Mutation_testing}} durch.
+Bei dieser Methode werden Testfälle getestet, indem der Programmcode an je einer Stelle pro Durchlauf verändert wird.
+Nun sollte mindestens einer der Testfälle fehlschlagen.
+Ist dies nicht der Fall, so wurde die veränderte Codezeile nicht hinreichend genau getestet.
+Zusätzlich generiert Pitest einen umfangreichen Testbericht und erfasst auch die Reine Zeilenüberdeckung der Tests.
+
+\subsubsection{Testen des Modells}
+Im Modell werden alle Klassen getestet.
+\\
+Getestet wird mit 100\% Code-Überdeckung getestet
+
+Für jede Klasse des Modells wurde eine Test-Klasse erstellt die dafür gedacht ist ausschließlich das Verhalten der entsprechenden Klasse zu testen.
+
+\subsubsection{Testen des Controllers}

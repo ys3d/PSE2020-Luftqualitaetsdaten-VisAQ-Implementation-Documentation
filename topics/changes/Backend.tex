@@ -52,25 +52,56 @@ Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnitt
 \noChange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Controller
 \class{DatastreamController}
-%TODO
+\controllerWrapper
+\\
+Es wurden folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class ThingAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Things mit einem ObservedProperty
+und 
+\begin{lstlisting}[language=java]
+    static class SensorAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Sensors und einem ObservedProperty
 \class{FeatureOfInterestController}
-%TODO
+\controllerWrapper
 \class{HistoricalLocationController}
-%TODO
+\controllerWrapper
 \class{LocationController}
-%TODO
+\controllerWrapper
 \class{ObservationController}
-%TODO
+\controllerWrapper
+\\
+Es folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class AreaWrapper
+\end{lstlisting}
+zum Kapseln eines Squares, einer Zeitspanne, eines Zeitpunktes und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TimeframedThingWrapper
+\end{lstlisting}
+zum Kapseln mehrerer Things, eines Zeitpunktes, einer Zeitspanne und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TopWrapper
+\end{lstlisting}
+zum Kapseln eines Datastreams und einer Anzahl an Elementen
 \class{ObservedPropertyController}
-%TODO
+\controllerWrapper
 \class{SensorController}
-%TODO
+\controllerWrapper
 \class{SensorthingController}
-%TODO
+Es wurde der Wrapper
+\begin{lstlisting}[language=java]
+    static class IdWrapper
+\end{lstlisting}
+hinzugefügt, der eine ID als String kapselt.
+Der IDWrapper befindet sich in der Klasse SensorthingController, da alle Subklassen diesen Warpper benutzen.
+Somit wird redundanz vermieden.
 \class{ThingController}
-%TODO
+\controllerWrapper
 \class{UtilityController}
-%TODO
+\controllerWrapper
 \class{WebUtilityController}
 Der WebUtilityController wurde neu hinzugefügt. Die hauptsächliche Verwendung liegt in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
 
