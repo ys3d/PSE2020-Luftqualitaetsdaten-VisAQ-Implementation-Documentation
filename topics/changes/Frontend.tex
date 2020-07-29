@@ -1,1 +1,86 @@
 \subsection{Frontend}
+Im Frontend betrachten wir Änderungen nicht Funktionsweise, vielmehr betrachten wir die Umsetzung der Klassen des Entwurfs im praktischen React-Programm.
+\subsubsection{Model}
+\class{DataStream}
+\class{FeatureOfInterest}
+\class{HistoricalLocation}
+\class{Location}
+\class{Observation}
+\class{ObservedProperty}
+\class{PointDatum}
+\class{Sensor}
+\class{SensorDatum}
+\class{Sensorthing}
+\class{Thing}
+\class{UnitOfMeasurement}
+
+\subsubsection{View}
+\class{ExpertViewFilter}
+\class{Navbar}
+    Umbenannt in Navigationbar, da es in React-Bootstrap schon eine implementierte Klasse Navbar gibt.
+\class{Toolbar}
+    \removedClass
+    Diese Klasse wird nun direkt in der Navigationbar mitimplementiert.
+\class{ObservedNavbarSubject}
+\class{Timeline}
+\class{ColorBlindTheme}
+\class{ColorTheme}
+\class{DarkTheme}
+\class{Gradient}
+\class{LightTheme}
+\class{CookieNotice}
+    Diese Klasse zeigt die CookieNotice als Modal an, und speichert zugleich bei Akzeptanz durch den Benutzer die Cookies.
+    Diese beinhalten die gewählte Sprache und den aktuellen Standort des Benutzers.
+\class{InformationView}
+\class{Language}
+    Anstatt eine eigene Language implementierung zu schreiben benutzen wir die zwei Dependencies i18n und i18next.
+    Diese werden in der Language Klasse initialisiert. 
+    Außerdem wird in der componentWillMount() Methode geprüft ob Cookies existieren und daraufhin wird die Sprache angepasst. Dies geschieht über die changeLanguage() von i18next und über die Methode getLanguage().
+    Diese Methode spaltet die Cookie-Json file auf und gibt die gespeicherte Sprache zurück.
+\class{MapView}
+\class{View}
+    \removedClass
+\class{InterpolationOverlayFactory}
+\class{OverlayBuilder}
+\class{OverlayFactory}
+\class{SensorOverlayFactory}
+\class{SensorOverview}
+    Diese Klasse 
+\class{Legend}
+    Die Klasse implementiert die angezeigte Legende, welche mithilfe von leaflet und unserer Gradient Klasse erstellt wird.
+    \standardMethods
+    Mit der Methode createLegend() wird eine Legende erstellt und der Karte hinzugefügt.
+    Mit der Methode removeLegend() wird die Legende entfernt
+\class{Diagram}
+    Die Klasse implementiert ein Liniendiagramm für die Sidebar. Genutzt wird hierbei die React-chartjs-2 Dependency.
+    Mithilfe dieser kann man Diagramme auf den gegebenen Daten konfigurieren. Diese werden mithilfe der componentDidUpdate(prevProps) Methode
+    bei einer Änderung der Daten erneuert.
+\class{LineDiagram}
+    \removedClass
+\class{BarDiagram}
+    \removedClass
+\class{AirQualityData}
+
+Neu dazu kommt:
+\class{DataCard}
+    Eine rein graphische Klasse welche dafür sorgt, dass die Diagramme in dem Akkordion der SensorOverview angezeigt werden.
+\class{OverviewContainer}
+\class{PointOverview}
+\class{ShareField}
+    Diese Klasse implementiert mithilfe der react-share Dependency ShareButtons für Email, Reddit, WhatApp und Telegram.
+    Hierbei wird die default Klasse exportiert, welche die render() Methode beinhaltet und darin die einzelnen Buttons deklariert und 
+    mit der passenden URL verbindet.
+\class{PopupCauses}
+    Die Klasse beinhaltet das Popup welches die Konsequenzen von hohen Feinstaub anzeigt. Hierbei handelt es sich um keine funktionale Klasse sondern um eine Klasse die sich
+    lediglich um graphische Komponenten kümmert.
+\class{PopupReasons}
+    Die Klasse beinhaltet das Popup welches die Gründe von hohen Feinstaub anzeigt. Hierbei handelt es sich um keine funktionale Klasse sondern um eine Klasse die sich
+    lediglich um graphische Komponenten kümmert.
+\class{CookieNoticeInformation}
+    Die Klasse beinhaltet das Popup welches die Erklärung für unsere Nutzung von Cookies anzeigt. Hierbei handelt es sich um keine funktionale Klasse sondern um eine Klasse die sich
+    lediglich um graphische Komponenten kümmert.
+\class{App}
+    Die Klasse App ersetzt
+\subsubsection{Controller}
+\class{Request}
+    Diese Klasse stellt eine POST Request an das Backend.

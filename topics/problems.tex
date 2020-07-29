@@ -4,12 +4,12 @@
 \subsubsection{Grundproblem}
 Eine der größten Schwierigkeiten der Implementierungsphase besteht im Wechsel der Programmiersprache im Frontend.
 Ursprünglich wurde die Implementierung des Frontends mit dem Java-Transpiler Jsweet geplant.
-In dieversen Testprojekten wurde die Funktionalität von Jsweet umfangreich dargestellt.
-Leider traten während der Implementierung des Java-Entwurfs diverse fehler im Transpiler und den verwendeten Bibliotheken auf, die darauf hindeuten, dass Projekte mit Jsweet schlecht skalieren.
+In diversen Testprojekten wurde die Funktionalität von Jsweet umfangreich dargestellt.
+Leider traten während der Implementierung des Java-Entwurfs diverse Fehler im Transpiler und den verwendeten Bibliotheken auf, die darauf hindeuten, dass Projekte mit Jsweet schlecht skalieren.
 Aufgrund der Support-historie auf Github ist mit schnellen Fehlerbehebungen nicht zu rechnen.
 Somit ergibt sich keine andere praktikable Lösung, als ein Wechsel der Programmiersprache, um das Projekt erfolgreich zu beenden.
 Hier wurde React gewählt, die Laufzeitumgebung mit Javascript die gleiche wie bei einem übsertzten Jsweet Programm ist.
-Zusätzlich ist der Funktionsumfang und die Dokumentation von React umfangreich ist.
+Zusätzlich ist der Funktionsumfang und die Dokumentation von React umfangreich.
 Dadurch wird der Einstieg in React vereinfacht.
 Gerade bei einem derart spontanen Wechsel der Programmiersprache ist der einfache Einstieg in einen Programmiersprache wichtig, um den Zeitplan einhalten zu könnnen, zumal durch die Implementierungsversuche zu Beginn der Implementierungsphase etwa eine Woche Arbeitszeit verloren gegangen ist.
 
@@ -24,7 +24,7 @@ Das Vorgehen hierbei war wie folgt.
     \item Ein neues React-Projekt wurde als Basis des Projektes erstellt.
     \item Alle Klassen aus dem ursprünglichen Entwurf wurden dem Projekt als .jsx Dateien hinzugefügt.
     \item Den Klassen wurde im Entwurf jeweils ein Zweck oder eine Grundfunktionalität zugeordnet. Dieser Zweck wurde übernommen.
-    \item Ausgehend von der Datei App.jsx wurden die Klassen absteigend in der Hierarchie implementiert. Die niedrigeren Implementierungsstufen wurden hierbei jeweils mit Konstanten werten simuliert.
+    \item Ausgehend von der Datei App.jsx wurden die Klassen absteigend in der Hierarchie implementiert. Die niedrigeren Implementierungsstufen wurden hierbei jeweils mit konstanten Werten simuliert.
 \end{enumerate}
 
 \subsection{Post Requests mit JSON an der Webschnittstelle des Backend}
