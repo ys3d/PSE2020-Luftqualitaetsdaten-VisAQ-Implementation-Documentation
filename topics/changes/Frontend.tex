@@ -1,54 +1,82 @@
 \subsection{Frontend}
 Im Frontend betrachten wir Änderungen nicht Funktionsweise, vielmehr betrachten wir die Umsetzung der Klassen des Entwurfs im praktischen React-Programm.
+Bei der Implementierung des Fronends wurde durch den Wechsel von JSweet zu React einiges an der Art der Implementierung geändert, wobei die angedachte Klassenhierarchie gleich blieb.
+Diese Änderungen liegen der Anpassung des Codes an das React-Lifecycle zugrunde. Beispiel hierfür ist die update Methode in der VisAQ Klasse, welche den update der einzelnen Komponenten
+durchgeführt hätte. Diese wurde mit den Methoden componentWillUpdate() etc. von dem React-Lifecycle ersetzt. 
+
 \subsubsection{Model}
 \class{DataStream}
+\toJSON
 \class{FeatureOfInterest}
+\toJSON
 \class{HistoricalLocation}
+\toJSON
 \class{Location}
+\toJSON
 \class{Observation}
+\toJSON
 \class{ObservedProperty}
+\toJSON
 \class{PointDatum}
+\toJSON
 \class{Sensor}
+\toJSON
 \class{SensorDatum}
+\toJSON
 \class{Sensorthing}
+\toJSON
 \class{Thing}
+\toJSON
 \class{UnitOfMeasurement}
+\toJSON
 
 \subsubsection{View}
 \class{ExpertViewFilter}
+    Diese Funktion wurde in diesem Sinne entfernt, aber in der SensorOverview wieder aufgenommen.
 \class{Navbar}
     Umbenannt in Navigationbar, da es in React-Bootstrap schon eine implementierte Klasse Navbar gibt.
+    Diese Klasse steuert die unterschiedlichen Komponenten der Website und auch die Darstellung der Navigationbar.
 \class{Toolbar}
     \removedClass
     Diese Klasse wird nun direkt in der Navigationbar mitimplementiert.
 \class{ObservedNavbarSubject}
+    \removedClass
 \class{Timeline}
+    Wurde nicht implementiert. 
 \class{ColorBlindTheme}
 \class{ColorTheme}
 \class{DarkTheme}
 \class{Gradient}
+    In dieser Klasse wird der Gradient einerseits von HSL zu RGB und in die andere Richtung implementiert. Hierfür wird lineare Interpolation verwendet.
 \class{LightTheme}
 \class{CookieNotice}
     Diese Klasse zeigt die CookieNotice als Modal an, und speichert zugleich bei Akzeptanz durch den Benutzer die Cookies.
     Diese beinhalten die gewählte Sprache und den aktuellen Standort des Benutzers.
 \class{InformationView}
+    Diese Klasse wurde nicht implementiert da es sich um ein Wunschkriterium handelt.
 \class{Language}
     Anstatt eine eigene Language implementierung zu schreiben benutzen wir die zwei Dependencies i18n und i18next.
     Diese werden in der Language Klasse initialisiert. 
     Außerdem wird in der componentWillMount() Methode geprüft ob Cookies existieren und daraufhin wird die Sprache angepasst. Dies geschieht über die changeLanguage() von i18next und über die Methode getLanguage().
     Diese Methode spaltet die Cookie-Json file auf und gibt die gespeicherte Sprache zurück.
 \class{MapView}
+    Die Klasse MapView ist Child der Navigationbar und implementiert die Karte. Die Anfragen an das Backend finden im Gegenteil zum Entwurf in dieser Klasse statt. 
 \class{View}
     \removedClass
 \class{InterpolationOverlayFactory}
+    In dieser Klasse wird mithilfe von bilinearer Interpolation das InterpolationsOverlay erstellt.
 \class{OverlayBuilder}
+    In dieser Klasse wird nicht wie im Entwurf die Anfrage ans Backend gesendet. Hier entstehen die Overlays für die unterschiedlichen Luftqualitätsdaten.
+    Außerdem findet hier die Kontrolle über die unterschiedlichen Overlays statt.
 \class{OverlayFactory}
+    \removedClass
 \class{SensorOverlayFactory}
-\class{SensorOverview}
-    Diese Klasse 
+    In dieser Klasse wird das Overlay mit den Sensoren erstellt. Diese werden mithilfe des Gradienten erstellt.
+    Diese Klasse funktioniert wie vorgestellt, nur ohne die OverlayFactory zu implementieren.
+ \class{SensorOverview}
+    Diese Klasse SensorOverview beinhaltet die in der Sidebar angezeigten Daten für die Diagramme, sowie die allgemeine Darstellung dieser Komponente.
 \class{Legend}
     Die Klasse implementiert die angezeigte Legende, welche mithilfe von leaflet und unserer Gradient Klasse erstellt wird.
-    \standardMethods
     Mit der Methode createLegend() wird eine Legende erstellt und der Karte hinzugefügt.
     Mit der Methode removeLegend() wird die Legende entfernt
 \class{Diagram}
@@ -60,12 +88,16 @@ Im Frontend betrachten wir Änderungen nicht Funktionsweise, vielmehr betrachten
 \class{BarDiagram}
     \removedClass
 \class{AirQualityData}
+    Diese Klasse steuert die Darstellung der Luftqualitätsdaten und gibt mithilfe von Gettern die Attribute an andere Klassen weiter.
+\class{VisAQ}
 
 Neu dazu kommt:
 \class{DataCard}
     Eine rein graphische Klasse welche dafür sorgt, dass die Diagramme in dem Akkordion der SensorOverview angezeigt werden.
 \class{OverviewContainer}
+    Hierbei handelt es sich um einen Container für die Sidebar.
 \class{PointOverview}
+    Die Klasse zeigt die Overview für die interpolierten Daten zwischen den Sensoren. Es werden hier außerdem keine Diagramme angezeigt.
 \class{ShareField}
     Diese Klasse implementiert mithilfe der react-share Dependency ShareButtons für Email, Reddit, WhatApp und Telegram.
     Hierbei wird die default Klasse exportiert, welche die render() Methode beinhaltet und darin die einzelnen Buttons deklariert und 
@@ -79,8 +111,7 @@ Neu dazu kommt:
 \class{CookieNoticeInformation}
     Die Klasse beinhaltet das Popup welches die Erklärung für unsere Nutzung von Cookies anzeigt. Hierbei handelt es sich um keine funktionale Klasse sondern um eine Klasse die sich
     lediglich um graphische Komponenten kümmert.
-\class{App}
-    Die Klasse App ersetzt
-\subsubsection{Controller}
+
+    \subsubsection{Controller}
 \class{Request}
     Diese Klasse stellt eine POST Request an das Backend.
