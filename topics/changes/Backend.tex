@@ -3,7 +3,7 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 
 \subsubsection{Model}
 \class{Datastream}
-%TODO
+\noChange
 \class{FeatureOfInterest}
 \noChange
 \class{HistoricalLocation}
@@ -13,9 +13,9 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{Observation}
 \noChange
 \class{ObservedProperty}
-%TODO
+\noChange
 \class{Sensor}
-%TODO
+\noChange
 \class{Sensorthing}
 \changedFunctions
 \begin{itemize}[noitemsep]
@@ -26,20 +26,20 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{SensorthingsTimeStamp}
 \noChange
 \class{Thing}
-%TODO
+\noChange
 \class{UnitOfMeasurement}
 \noChange
 \class{PointDatum}
 \noChange
-\class{Sqaure}
-Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnittstelle besser zu kapseln. Sqaure erbt von der ursprünglich verwendten Klasse Envelope.
+\class{Square}
+Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnittstelle besser zu kapseln. Square erbt von der ursprünglich verwendten Klasse Envelope.
 
 \subsubsection{Controller}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Links
 \class{MultiLocalLink}
 \noChange
 \class{MultiNavigationLink}
-\noChange
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen MultiNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
 \class{MultiOnlineLink}
 \noChange
 \class{NavigationLink}
@@ -47,30 +47,61 @@ Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnitt
 \class{SingleLocalLink}
 \noChange
 \class{SingleNavigationLink}
-\noChange
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen SingleNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
 \class{SingleOnlineLink}
 \noChange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Controller
 \class{DatastreamController}
-%TODO
+\controllerWrapper
+\\
+Es wurden folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class ThingAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Things mit einem ObservedProperty
+und 
+\begin{lstlisting}[language=java]
+    static class SensorAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Sensors und einem ObservedProperty
 \class{FeatureOfInterestController}
-%TODO
+\controllerWrapper
 \class{HistoricalLocationController}
-%TODO
+\controllerWrapper
 \class{LocationController}
-%TODO
+\controllerWrapper
 \class{ObservationController}
-%TODO
+\controllerWrapper
+\\
+Es folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class AreaWrapper
+\end{lstlisting}
+zum Kapseln eines Squares, einer Zeitspanne, eines Zeitpunktes und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TimeframedThingWrapper
+\end{lstlisting}
+zum Kapseln mehrerer Things, eines Zeitpunktes, einer Zeitspanne und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TopWrapper
+\end{lstlisting}
+zum Kapseln eines Datastreams und einer Anzahl an Elementen
 \class{ObservedPropertyController}
-%TODO
+\controllerWrapper
 \class{SensorController}
-%TODO
+\controllerWrapper
 \class{SensorthingController}
-%TODO
+Es wurde der Wrapper
+\begin{lstlisting}[language=java]
+    static class IdWrapper
+\end{lstlisting}
+hinzugefügt, der eine ID als String kapselt.
+Der IDWrapper befindet sich in der Klasse SensorthingController, da alle Subklassen diesen Warpper benutzen.
+Somit wird redundanz vermieden.
 \class{ThingController}
-%TODO
+\controllerWrapper
 \class{UtilityController}
-%TODO
+\controllerWrapper
 \class{WebUtilityController}
 Der WebUtilityController wurde neu hinzugefügt. Die hauptsächliche Verwendung liegt in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
 
@@ -86,9 +117,14 @@ Hierfür wurde die Methode
 implementiert
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Interpolation
 \class{DefaultInterpolation}
-%TODO
+Die Klasse \textit{DefaultInterpolation} wurde in der Entwicklung zurück gestellt und wird zur Zeit nicht verwendet.
 \class{Interpolation}
-%TODO
+\noChange
+\class{NearestNeighborInterpolation}
+Die Klasse \textit{NearestNeighborInterpolation} ersetzt die Klasse \textit{DefaultInterpolation} vorerst in ihrer Funktion.
+Statt der Barnes-Interpolation wird hier Nearest-Neighbor\footnote{\url{https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation}} verwendet.
+\class{GridTransform}
+Die Hilfklasse \textit{GridTransform} wurde hinzugefügt um Quadrate in ein Kartesisches Koordinatensystem umzuformen.
 
 
 
@@ -117,10 +153,10 @@ Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
     ]
 }
 \end{lstlisting}
-Hierbei repräsentiert \textit{authors} eine Hashmap.
-Das Serialisierungsproblem besteht hierbei darin, dass das Untergeordnete Attribut \textit{authors} in einer einfachen Serialisierung doppelt vorkommt obwohl es sich um verschiedene Datensätze handelt.
-Dieses Problem wird durch den DedupingResolver gelöst, indem Hashmaps besser serialisiert werden.
-Hierfür erweitert er die Klasse SimpleObjectIdResolver, der sonst hierfür genutzt wird.
+Hierbei soll \textit{authors} zu einem Autors Objekt deserialisiert werden, dass über seinen Namen eindeutig bestimmt ist.
+Spring überprüft die Identität anhand des Namen und wirft standardmäßig einen Fehler, da nicht ausgeschlossen werden kann, dass sich die Objekte an Hand von anderen Attributen unterscheiden würden, was die funktionale Abhängigkeit vom Namen verletzt.
+Dies ist allerdings bei uns nie der Fall, weshalb wir einen Deduping Resolver verwenden.
+Dabei wird bei der Deserialisierung des zweiten Vorkommens eines Autors mit Namen "JK Rowling" einfach das deserialisierte Objekt des ersten Vorkommens verwendet.
 \class{RestConstants}
 \noChange
 \class{VisAQ}
