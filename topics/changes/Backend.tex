@@ -1,5 +1,5 @@
 \subsection{Backend}
-Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei der Implementierung und den Änderungen gegenüber dem Entwurf.
+Wir betrachten alle Klassen des Backends hinsichtlich der Schwierigkeiten bei der Implementierung und den Änderungen gegenüber dem Entwurf.
 
 \subsubsection{Model}
 \class{Datastream}
@@ -19,7 +19,7 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{Sensorthing}
 \changedFunctions
 \begin{itemize}[noitemsep]
-    \item Die Java-Standart Funktion \textit{equals(Object other)} wurde aus den von Sensothing erbenden Klassen in die Klasse Sensorthing verschoben.
+    \item Die Java-Standard Funktion \textit{equals(Object other)} wurde aus den von Sensorthing erbenden Klassen in die Klasse Sensorthing verschoben.
 \end{itemize}
 \class{SensorthingsProperties}
 \noChange
@@ -32,14 +32,14 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{PointDatum}
 \noChange
 \class{Square}
-Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnittstelle besser zu kapseln. Square erbt von der ursprünglich verwendten Klasse Envelope.
+Die Klasse Square wurde neu hinzugefügt, um quadratische Bereiche in der Schnittstelle besser zu kapseln. Square erbt von der ursprünglich verwendeten Klasse Envelope.
 
 \subsubsection{Controller}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Links
 \class{MultiLocalLink}
 \noChange
 \class{MultiNavigationLink}
-Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen MultiNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert, die hilft einen MultiNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
 \class{MultiOnlineLink}
 \noChange
 \class{NavigationLink}
@@ -47,14 +47,14 @@ Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen 
 \class{SingleLocalLink}
 \noChange
 \class{SingleNavigationLink}
-Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen SingleNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert, die hilft einen SingleNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
 \class{SingleOnlineLink}
 \noChange
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Controller
 \class{DatastreamController}
 \controllerWrapper
 \\
-Es wurden folgende Wrapper hinzugefügt
+Es wurden folgende Wrapper hinzugefügt:
 \begin{lstlisting}[language=java]
     static class ThingAndObservedPropertyWrapper
 \end{lstlisting}
@@ -73,7 +73,7 @@ zum Kapseln eines Sensors und einem ObservedProperty
 \class{ObservationController}
 \controllerWrapper
 \\
-Es folgende Wrapper hinzugefügt
+Es wurden folgende Wrapper hinzugefügt:
 \begin{lstlisting}[language=java]
     static class AreaWrapper
 \end{lstlisting}
@@ -95,15 +95,15 @@ Es wurde der Wrapper
 \begin{lstlisting}[language=java]
     static class IdWrapper
 \end{lstlisting}
-hinzugefügt, der eine ID als String kapselt.
-Der IDWrapper befindet sich in der Klasse SensorthingController, da alle Subklassen diesen Warpper benutzen.
-Somit wird redundanz vermieden.
+hinzugefügt, der eine Id als String kapselt.
+Der IdWrapper befindet sich in der Klasse SensorthingController, da alle Subklassen diesen Wrapper benutzen.
+Somit wird Redundanz vermieden.
 \class{ThingController}
 \controllerWrapper
 \class{UtilityController}
 \controllerWrapper
 \class{WebUtilityController}
-Der WebUtilityController wurde neu hinzugefügt. Die hauptsächliche Verwendung liegt in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
+Der WebUtilityController wurde neu hinzugefügt. Sein Nutzen besteht hauptsächlich in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
 
 Hierfür wurde die Methode
 \begin{lstlisting}[language=java]
@@ -114,17 +114,17 @@ Hierfür wurde die Methode
      */
     public String versionPage() {[...]}
 \end{lstlisting}
-implementiert
+implementiert.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Interpolation
 \class{DefaultInterpolation}
-Die Klasse \textit{DefaultInterpolation} wurde in der Entwicklung zurück gestellt und wird zur Zeit nicht verwendet.
+Die Implementierung der Klasse \textit{DefaultInterpolation} wird aufgrund von Komplikationen zur Zeit hintenangestellt.
 \class{Interpolation}
 \noChange
 \class{NearestNeighborInterpolation}
 Die Klasse \textit{NearestNeighborInterpolation} ersetzt die Klasse \textit{DefaultInterpolation} vorerst in ihrer Funktion.
 Statt der Barnes-Interpolation wird hier Nearest-Neighbor\footnote{\url{https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation}} verwendet.
 \class{GridTransform}
-Die Hilfklasse \textit{GridTransform} wurde hinzugefügt um Quadrate in ein Kartesisches Koordinatensystem umzuformen.
+Die Hilfsklasse \textit{GridTransform} wurde hinzugefügt, um Quadrate in ein Kartesisches Koordinatensystem umzuformen.
 
 
 
@@ -132,7 +132,7 @@ Die Hilfklasse \textit{GridTransform} wurde hinzugefügt um Quadrate in ein Kart
 \class{DedupingResolver}
 Die Klasse DedupingResolver ist gegenüber dem Entwurf neu hinzugekommen.
 \\
-Die Klasse behebt Serialisierungsprobleme bei der \gls{JSON}-Serialisierung.
+Die Klasse behebt Serialisierungsprobleme bei der \gls{JSON}-(De-)Serialisierung.
 
 Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
 \begin{lstlisting}[frame=single, language=json]
@@ -153,7 +153,7 @@ Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
     ]
 }
 \end{lstlisting}
-Hierbei soll \textit{authors} zu einem Autors Objekt deserialisiert werden, dass über seinen Namen eindeutig bestimmt ist.
+Hierbei soll \textit{authors} zu einem Autoren Objekt deserialisiert werden, dass über seinen Namen eindeutig bestimmt ist.
 Spring überprüft die Identität anhand des Namen und wirft standardmäßig einen Fehler, da nicht ausgeschlossen werden kann, dass sich die Objekte an Hand von anderen Attributen unterscheiden würden, was die funktionale Abhängigkeit vom Namen verletzt.
 Dies ist allerdings bei uns nie der Fall, weshalb wir einen Deduping Resolver verwenden.
 Dabei wird bei der Deserialisierung des zweiten Vorkommens eines Autors mit Namen "JK Rowling" einfach das deserialisierte Objekt des ersten Vorkommens verwendet.
@@ -161,5 +161,5 @@ Dabei wird bei der Deserialisierung des zweiten Vorkommens eines Autors mit Name
 \noChange
 \class{VisAQ}
 \begin{itemize}[noitemsep]
-    \item Ein Feld \textit{public static final String VERSION} wurde der klasse neu hinzugefügt. Die Variable soll nach dem Schema "yyyy.mm.dd\#x" gefüllt werden, wobei der erste Teil das aktuelle datum und x eine fortlaufende Nummer des Tages darstellt. Die Variable wird genutzt um bei aktiven Backends die aktuell arbeitende Version anzuzeigen.
+    \item Ein Feld \textit{public static final String VERSION} wurde der Klasse neu hinzugefügt. Die Variable soll nach dem Schema "yyyy.mm.dd\#x" gefüllt werden, wobei der erste Teil das aktuelle Datum und x eine fortlaufende Versionsnummer des Tages darstellt. Die Variable wird genutzt, um während des Betriebs einfach die aktuell verwendete Version des Backends anzuzeigen.
 \end{itemize}
