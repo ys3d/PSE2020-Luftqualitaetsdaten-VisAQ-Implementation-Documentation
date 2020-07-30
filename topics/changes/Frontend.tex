@@ -38,7 +38,7 @@ durchgeführt hätte. Diese wurde mit den Methoden componentWillUpdate() etc. vo
     Diese Klasse steuert die unterschiedlichen Komponenten der Website und auch die Darstellung der Navigationbar.
 \class{Toolbar}
     \removedClass
-    Diese Klasse wird nun direkt in der Navigationbar mitimplementiert.
+    Diese Klasse wird nun direkt in der Navigationbar aufgrund von \gls{Bootstrap} mitimplementiert.
 \class{ObservedNavbarSubject}
     \removedClass
 \class{Timeline}
@@ -81,8 +81,7 @@ Wurde nicht implementiert.
     Diese Klasse SensorOverview beinhaltet die in der Sidebar angezeigten Daten für die Diagramme, sowie die allgemeine Darstellung dieser Komponente.
 \class{Legend}
     Die Klasse implementiert die angezeigte Legende, welche mithilfe von \gls{Leaflet} und unserer Gradient Klasse erstellt wird.
-    Mit der Methode createLegend() wird eine Legende erstellt und der Karte hinzugefügt.
-    Mit der Methode removeLegend() wird die Legende entfernt
+    Die Legende passt sich immer jeweils der ausgewählten Luftqualitätsdate an
 \class{Diagram}
     Die Klasse implementiert ein Liniendiagramm für die Sidebar. Genutzt wird hierbei die React-chartjs-2 Dependency.
     Mithilfe dieser kann man Diagramme auf den gegebenen Daten konfigurieren. Diese werden mithilfe der componentDidUpdate(prevProps) Methode
@@ -94,7 +93,7 @@ Wurde nicht implementiert.
 \class{AirQualityData}
     Diese Klasse steuert die Darstellung der Luftqualitätsdaten und gibt mithilfe von Gettern die Attribute an andere Klassen weiter.
 \class{VisAQ}
-    Eine an React angepasste Main Klasse.
+    Eine an React angepasste Main Klasse, welche das Frontend startet.
 
 Neu dazu kommt:
 \class{DataCard}
