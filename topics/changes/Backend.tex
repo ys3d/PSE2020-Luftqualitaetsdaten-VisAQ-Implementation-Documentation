@@ -3,7 +3,7 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 
 \subsubsection{Model}
 \class{Datastream}
-%TODO
+\noChange
 \class{FeatureOfInterest}
 \noChange
 \class{HistoricalLocation}
@@ -13,9 +13,9 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{Observation}
 \noChange
 \class{ObservedProperty}
-%TODO
+\noChange
 \class{Sensor}
-%TODO
+\noChange
 \class{Sensorthing}
 \changedFunctions
 \begin{itemize}[noitemsep]
@@ -26,7 +26,7 @@ Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei de
 \class{SensorthingsTimeStamp}
 \noChange
 \class{Thing}
-%TODO
+\noChange
 \class{UnitOfMeasurement}
 \noChange
 \class{PointDatum}
@@ -117,9 +117,14 @@ Hierfür wurde die Methode
 implementiert
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Interpolation
 \class{DefaultInterpolation}
-%TODO
+Die Klasse \textit{DefaultInterpolation} wurde in der Entwicklung zurück gestellt und wird zur Zeit nicht verwendet.
 \class{Interpolation}
-%TODO
+\noChange
+\class{NearestNeighborInterpolation}
+Die Klasse \textit{NearestNeighborInterpolation} ersetzt die Klasse \textit{DefaultInterpolation} vorerst in ihrer Funktion.
+Statt der Barnes-Interpolation wird hier Nearest-Neighbor\footnote{\url{https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation}} verwendet.
+\class{GridTransform}
+Die Hilfklasse \textit{GridTransform} wurde hinzugefügt um Quadrate in ein Kartesisches Koordinatensystem umzuformen.
 
 
 
@@ -148,10 +153,10 @@ Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
     ]
 }
 \end{lstlisting}
-Hierbei repräsentiert \textit{authors} eine Hashmap.
-Das Serialisierungsproblem besteht hierbei darin, dass das Untergeordnete Attribut \textit{authors} in einer einfachen Serialisierung doppelt vorkommt obwohl es sich um verschiedene Datensätze handelt.
-Dieses Problem wird durch den DedupingResolver gelöst, indem Hashmaps besser serialisiert werden.
-Hierfür erweitert er die Klasse SimpleObjectIdResolver, der sonst hierfür genutzt wird.
+Hierbei soll \textit{authors} zu einem Autors Objekt deserialisiert werden, dass über seinen Namen eindeutig bestimmt ist.
+Spring überprüft die Identität anhand des Namen und wirft standardmäßig einen Fehler, da nicht ausgeschlossen werden kann, dass sich die Objekte an Hand von anderen Attributen unterscheiden würden, was die funktionale Abhängigkeit vom Namen verletzt.
+Dies ist allerdings bei uns nie der Fall, weshalb wir einen Deduping Resolver verwenden.
+Dabei wird bei der Deserialisierung des zweiten Vorkommens eines Autors mit Namen "JK Rowling" einfach das deserialisierte Objekt des ersten Vorkommens verwendet.
 \class{RestConstants}
 \noChange
 \class{VisAQ}
