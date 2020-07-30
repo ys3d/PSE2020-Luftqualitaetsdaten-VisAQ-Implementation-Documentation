@@ -3,21 +3,20 @@
 \subsection{Wechsel der Sprache des Frontend}
 \subsubsection{Grundproblem}
 Eine der größten Schwierigkeiten der Implementierungsphase besteht im Wechsel der Programmiersprache im Frontend.
-Ursprünglich wurde die Implementierung des Frontends mit dem Java-Transpiler Jsweet geplant.
-In diversen Testprojekten wurde die Funktionalität von Jsweet umfangreich dargestellt.
-Leider traten während der Implementierung des Java-Entwurfs diverse Fehler im Transpiler und den verwendeten Bibliotheken auf, die darauf hindeuten, dass Projekte mit Jsweet schlecht skalieren.
+Ursprünglich wurde die Implementierung des Frontends mit dem Java-Transpiler JSweet geplant.
+In diversen Testprojekten wurde die Funktionalität von JSweet umfangreich dargestellt.
+Leider traten während der Implementierung des Java-Entwurfs diverse Fehler im Transpiler und den verwendeten Bibliotheken auf, die darauf hindeuten, dass Projekte mit JSweet schlecht skalieren.
 Aufgrund der Support-historie auf Github ist mit schnellen Fehlerbehebungen nicht zu rechnen.
 Somit ergibt sich keine andere praktikable Lösung, als ein Wechsel der Programmiersprache, um das Projekt erfolgreich zu beenden.
-Hier wurde React gewählt, die Laufzeitumgebung mit Javascript die gleiche wie bei einem übsertzten Jsweet Programm ist.
-Zusätzlich ist der Funktionsumfang und die Dokumentation von React umfangreich.
+Hier wurde React gewählt, da die Laufzeitumgebung mit Javascript die gleiche wie bei einem übersetzten JSweet Programm ist.
+Zusätzlich ist der Funktionsumfang und die Dokumentation von React erheblich höher als bei JSweet.
 Dadurch wird der Einstieg in React vereinfacht.
-Gerade bei einem derart spontanen Wechsel der Programmiersprache ist der einfache Einstieg in einen Programmiersprache wichtig, um den Zeitplan einhalten zu könnnen, zumal durch die Implementierungsversuche zu Beginn der Implementierungsphase etwa eine Woche Arbeitszeit verloren gegangen ist.
+Gerade bei einem derart spontanen Wechsel der Programmiersprache ist der einfache Einstieg in ein neues Framework wichtig, um den Zeitplan einhalten zu könnnen, zumal durch die Implementierungsversuche zu Beginn der Implementierungsphase etwa eine Woche Arbeitszeit verloren gegangen ist.
 
-Aus dem Wechsel der Programmiersprache ergibt sich das Grundproblem das der Ursprüngliche Entwurf in Java geplant wurde. Die Umsetzbarkeit des Java-Entwurfs in Raect ist Änderungsfrei weder möglich noch sinnvoll.
-Im Frontend betrachten wir deshalb Änderungen nicht Funktionsweise, vielmehr betrachten wir die Umsetzung der Klassen des Entwurfs im praktischen React-Programm.
+Aus dem Wechsel der Programmiersprache ergibt sich das Grundproblem, dass der Ursprüngliche Entwurf in Java geplant wurde. Die Umsetzbarkeit des Java-Entwurfs in React ist änderungsfrei weder möglich noch sinnvoll.
 
 \subsubsection{Vorgehen beim Sprachentransfer}
-Um den Entwurf des Java-Frontends nutzen zu können mussten grundelegende Bestandteile des Entwurfs in einen neuen Entwurf transferiert werden.
+Um den Entwurf des Java-Frontends nutzen zu können, mussten grundlegende Bestandteile des Entwurfs in einen neuen Entwurf transferiert werden.
 Das Vorgehen hierbei war wie folgt.
 
 \begin{enumerate}
@@ -28,18 +27,17 @@ Das Vorgehen hierbei war wie folgt.
 \end{enumerate}
 
 \subsection{Post Requests mit JSON an der Webschnittstelle des Backend}
-Wird eine Anfrage an das Backend gestellt, so wird das Ergebnis als im \gls{JSON}-Format zurück gegeben.
-Um sinnvoll Anfragen für erhaltene Objekte stellen zu können sollten als Anfrage-Parameter der POST-Request die erhaltenen Objekte verwendet werden können.
-Der bisherige Entwurf war lediglich auf Anfragen mit Parametern des Typs \textit{application/x-www-form-urlencoded} geeignet.
-Um JSON als Parameter verwenden zu können musste das Backend mit dem Typ \textit{application/json} kompatibel gemacht werden.
+Wird eine Anfrage an das Backend gestellt, so wird das Ergebnis im \gls{JSON}-Format zurück gegeben.
+Um sinnvoll Anfragen stellen zu können, sollten als Anfrage-Parameter der POST-Request Model Instanzen verwendet werden können.
+Um JSON als Parameter verwenden zu können, akzeptiert das Backend Requestbodies im \textit{application/json} Format.
 
-Um Parameter für Funktionen als JSON übergeben zu können müssen die Funktionsparameter einer bestimmten Form entsprechen.
+Um die Model Instanzen korrekt übergeben zu können, muss der Requestbody einer bestimmten Form entsprechen.
 \begin{itemize}[noitemsep]
-    \item Es soll insgesamt nur ein Parameter übergeben werden
-    \item Alle Felder des Parameters müssen für das Spring-Framework zu setzen (also public) sein
-    \item Feld-Typen wie Strings müssen indirekt gesetzt werden, da die reinen Identitäten nicht direkt übergeben werden können
+    \item Es soll insgesamt nur ein JSON Objekt im Requestbody enthalten sein, wobei dieses beliebig viele eingenistete Modelinstanzen enthalten kann
+    \item Das Model muss im Backend einen entsprechenden parameterlosen Konstruktor haben und alle Parameter müssen public und non-final sein oder es existiert ein annotierter parametisierter Konstruktor
+    \item Für generische Eingabeparameter muss in der Anfrage das @type Attribut gesetzt sein
 \end{itemize}
-Daher wurden bei allen über die REST-API erreichbaren Funktionen die Parameter in Wrapper gekapselt.
+Daher wurden bei allen über die REST-API erreichbaren Funktionen die Objekte in Wrapper gekapselt.
 Ein solcher Wrapper baut sich beispielsweise wie folgt auf:
 \begin{lstlisting}[language=java,
     basicstyle=\normalfont\ttfamily,
@@ -69,5 +67,5 @@ static class ThingAndObservedPropertyWrapper {
 \end{lstlisting}
 
 Die Wrapper wurden als Subklassen der SensorthingsController implementiert.
-Hierbei wurde jeweils die der spezielle Controller gewählt, solange der Wrapper nur in diesem verwendet wird.
+Dabei wurden die Wrapper so tief angesiedelt wie es ihre Verwendung zulässt.
 Sobald der Wrapper in zwei oder mehr Controllern zum Einsatz kommt wird er in der Klasse SensorthingController implementiert, von der alle Controller erben.
