@@ -6,7 +6,10 @@ Pitest führt Mutation Testing\footnote{\url{https://en.wikipedia.org/wiki/Mutat
 Bei dieser Methode werden Testfälle getestet, indem der Programmcode an je einer Stelle pro Durchlauf verändert wird.
 Nun sollte mindestens einer der Testfälle fehlschlagen.
 Ist dies nicht der Fall, so wurde die veränderte Codezeile nicht hinreichend genau getestet.
+Allerdings können im allgemeinen nicht alle Mutanten "getötet" werden, beziehungsweise es ist nicht immer sinnvoll alle mutanten zu beseitigen.
 Zusätzlich generiert Pitest einen umfangreichen Testbericht und erfasst auch die Reine Zeilenüberdeckung der Tests.
+
+Der Testbericht des Systems kann unter \url{https://backendtest.visaq.de} eingesehen werden.
 
 \subsubsection{Testen des Modells}
 Im Modell werden alle Klassen getestet.
@@ -14,5 +17,94 @@ Im Modell werden alle Klassen getestet.
 Getestet wird mit 100\% Code-Überdeckung getestet
 
 Für jede Klasse des Modells wurde eine Test-Klasse erstellt die dafür gedacht ist ausschließlich das Verhalten der entsprechenden Klasse zu testen.
+Primär konzentrieren sich die Tests auf die funktionen, die die Modellklassen außerhalb ihrer Attribute implementieren, wie zum Beispiel die Interfaces \textit{SensorthingsProperties} oder \textit{SensorthingsTimeStamp}.
+So entstehen zum Beispiel Test wie dieser, der die \textit{isOlder(SensorthingsTimeStamp other)} Funktion für \textit{HistoricalLocation} testet:
+\begin{lstlisting}[language=java,
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background}]
+    @Test
+    public void isOlderTest() {
+        Instant i1 = Instant.parse("2007-12-03T10:15:30.00Z");
+        Instant i2 = Instant.parse("2008-12-03T10:15:30.00Z");
+        HistoricalLocation h1 = new HistoricalLocation("id", "selfUrl", false, i1, null, null);
+        HistoricalLocation h2 = new HistoricalLocation("id", "selfUrl", false, i2, null, null);
+
+        assertTrue(h1.isOlder(h2));
+        assertFalse(h2.isOlder(h1));
+        assertFalse(h2.isOlder(h2));
+    }
+\end{lstlisting}
+
+Zudem wurde für alle Modelle ein Testfall \textit{initTest()} erstellt, der Testet ob alle Attribute richtig im Controller gesetzt werden.
+Hier zum Beispiel ein Test für das Modell \textit{UnitOfMeasurement}
+\begin{lstlisting}[language=java,
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background}]
+    @Test
+    public void initTest() {
+        UnitOfMeasurement um = new UnitOfMeasurement("name", "symbol", "definition");
+
+        assertEquals("name", um.name);
+        assertEquals("symbol", um.symbol);
+        assertEquals("definition", um.definition);
+    }
+\end{lstlisting}
 
 \subsubsection{Testen des Controllers}
+Bei den Controller konnte insgesamt keine 100\% Testabdeckung erreicht werden.
+
+\paragraph{Sensorthings-Controller}\mbox{}\\
+Ein Grund für die unvollständige Abdeckung sind unter anderem die Sensorthings-Controller.
+Hier existiert jeweils eine Funktion \textit{getAll()} die alle entsprechenden Objekte ohne einschränkung aus der Datenbank bezieht.
+Diese Funktion belastet die Datenbank je nach abgefragter Entität sehr stark da alleine etwa 1200 Datastreams und über 1 000 000 Observations in der Datenbank bestehen.
+Bei den Klassen \textit{DatastreamController} und \textit{ObservationController} wurde diese funktion nicht getestet.
+Bei den anderen Controllern ist die Menge der abgefragten Elemente kleiner als 1000 und somit vertretbar.
+\\
+Ansonsten wurden nahezu alle Methoden der Controller getestet.
+\\
+Es ist jedoch bei den Testfällen nicht immer möglich einen sinnvollen assert zu schreiben der exakt den Inhalt der Controller-Rückgabe testet.
+Grund hierfür ist, das die Tests auf einer laufenden Datenbank ausgeführt werden und sich somit auch die Rückgabe der Datenbank auf bestimmte Querries nicht konstant ist.
+An diesen Stellen wurden die Elemente auf die Verschiedenheit von NULL und die Listen stellenweise auf Längen > 0 getestet.
+
+\paragraph{Link-Klassen}\mbox{}\\
+Durch die Enge verknüpfung der Controller, Modelle und der Links wurden viele features bereits durch die anderen Tests implizit abgedeckt, als zusätzliche Features mussten noch die Builder separat getestet werden.
+So wird auch bei den links eine Testüberdeckung von 100\% erreicht.
+
+\subsubsection{Sonstige Tests}
+Außerhalb von Modell und Controller wurde lediglich der \textit{Dedupingreolver} ausführlich getestet.
+\\
+Die anderen Klassen werden hier jeweils nur auf private Konstruktoren getestet.
+Dies geschieht mit einem Testfall wie dem folgenden für die Klasse \textit{RestConstants}:
+\begin{lstlisting}[language=java,
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background}]
+    @Test
+    public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+            InvocationTargetException, InstantiationException {
+        Constructor<RestConstants> constructor = RestConstants.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
+\end{lstlisting}
