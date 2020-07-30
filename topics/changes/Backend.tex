@@ -1,0 +1,165 @@
+\subsection{Backend}
+Wir betrachten alle Klassen des Backends hinsichtlich den Schwierigkeiten bei der Implementierung und den Änderungen gegenüber dem Entwurf.
+
+\subsubsection{Model}
+\class{Datastream}
+\noChange
+\class{FeatureOfInterest}
+\noChange
+\class{HistoricalLocation}
+\noChange
+\class{Location}
+\noChange
+\class{Observation}
+\noChange
+\class{ObservedProperty}
+\noChange
+\class{Sensor}
+\noChange
+\class{Sensorthing}
+\changedFunctions
+\begin{itemize}[noitemsep]
+    \item Die Java-Standart Funktion \textit{equals(Object other)} wurde aus den von Sensothing erbenden Klassen in die Klasse Sensorthing verschoben.
+\end{itemize}
+\class{SensorthingsProperties}
+\noChange
+\class{SensorthingsTimeStamp}
+\noChange
+\class{Thing}
+\noChange
+\class{UnitOfMeasurement}
+\noChange
+\class{PointDatum}
+\noChange
+\class{Square}
+Die Klasse Square wurde neu hinzugefügt um quadratische Bereiche in der Schnittstelle besser zu kapseln. Square erbt von der ursprünglich verwendten Klasse Envelope.
+
+\subsubsection{Controller}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Links
+\class{MultiLocalLink}
+\noChange
+\class{MultiNavigationLink}
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen MultiNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
+\class{MultiOnlineLink}
+\noChange
+\class{NavigationLink}
+\noChange
+\class{SingleLocalLink}
+\noChange
+\class{SingleNavigationLink}
+Die Klasse wurde um eine geschachtelte Klasse Builder erweitert die hilft einen SingleNavigationLink des Online- beziehungsweise Offlinetyps zu bauen.
+\class{SingleOnlineLink}
+\noChange
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Controller
+\class{DatastreamController}
+\controllerWrapper
+\\
+Es wurden folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class ThingAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Things mit einem ObservedProperty
+und 
+\begin{lstlisting}[language=java]
+    static class SensorAndObservedPropertyWrapper
+\end{lstlisting}
+zum Kapseln eines Sensors und einem ObservedProperty
+\class{FeatureOfInterestController}
+\controllerWrapper
+\class{HistoricalLocationController}
+\controllerWrapper
+\class{LocationController}
+\controllerWrapper
+\class{ObservationController}
+\controllerWrapper
+\\
+Es folgende Wrapper hinzugefügt
+\begin{lstlisting}[language=java]
+    static class AreaWrapper
+\end{lstlisting}
+zum Kapseln eines Squares, einer Zeitspanne, eines Zeitpunktes und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TimeframedThingWrapper
+\end{lstlisting}
+zum Kapseln mehrerer Things, eines Zeitpunktes, einer Zeitspanne und eines ObservedPropertys
+\begin{lstlisting}[language=java]
+    static class TopWrapper
+\end{lstlisting}
+zum Kapseln eines Datastreams und einer Anzahl an Elementen
+\class{ObservedPropertyController}
+\controllerWrapper
+\class{SensorController}
+\controllerWrapper
+\class{SensorthingController}
+Es wurde der Wrapper
+\begin{lstlisting}[language=java]
+    static class IdWrapper
+\end{lstlisting}
+hinzugefügt, der eine ID als String kapselt.
+Der IDWrapper befindet sich in der Klasse SensorthingController, da alle Subklassen diesen Warpper benutzen.
+Somit wird redundanz vermieden.
+\class{ThingController}
+\controllerWrapper
+\class{UtilityController}
+\controllerWrapper
+\class{WebUtilityController}
+Der WebUtilityController wurde neu hinzugefügt. Die hauptsächliche Verwendung liegt in der Anzeige der Versionsnummer aus der Klasse VisAQ mit einer GET-Request auf /version
+
+Hierfür wurde die Methode
+\begin{lstlisting}[language=java]
+    /**
+     * Returns the server-software-version.
+     * 
+     * @return The software-version
+     */
+    public String versionPage() {[...]}
+\end{lstlisting}
+implementiert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Interpolation
+\class{DefaultInterpolation}
+Die Klasse \textit{DefaultInterpolation} wurde in der Entwicklung zurück gestellt und wird zur Zeit nicht verwendet.
+\class{Interpolation}
+\noChange
+\class{NearestNeighborInterpolation}
+Die Klasse \textit{NearestNeighborInterpolation} ersetzt die Klasse \textit{DefaultInterpolation} vorerst in ihrer Funktion.
+Statt der Barnes-Interpolation wird hier Nearest-Neighbor\footnote{\url{https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation}} verwendet.
+\class{GridTransform}
+Die Hilfklasse \textit{GridTransform} wurde hinzugefügt um Quadrate in ein Kartesisches Koordinatensystem umzuformen.
+
+
+
+\subsubsection{Sonstige}
+\class{DedupingResolver}
+Die Klasse DedupingResolver ist gegenüber dem Entwurf neu hinzugekommen.
+\\
+Die Klasse behebt Serialisierungsprobleme bei der \gls{JSON}-Serialisierung.
+
+Betrachten wir hierzu folgendes vereinfachtes Beispiel im \gls{JSON}-Format:
+\begin{lstlisting}[frame=single, language=json]
+{
+    "title": "Harry Potter and the Philosopher's Stone",
+    "authors": [
+        {
+            "name": "JK Rowling"
+        }
+    ]
+},
+{
+    "title": "Harry Potter and the Chamber of Secrets",
+    "authors": [
+        {
+            "name": "JK Rowling"
+        }
+    ]
+}
+\end{lstlisting}
+Hierbei soll \textit{authors} zu einem Autors Objekt deserialisiert werden, dass über seinen Namen eindeutig bestimmt ist.
+Spring überprüft die Identität anhand des Namen und wirft standardmäßig einen Fehler, da nicht ausgeschlossen werden kann, dass sich die Objekte an Hand von anderen Attributen unterscheiden würden, was die funktionale Abhängigkeit vom Namen verletzt.
+Dies ist allerdings bei uns nie der Fall, weshalb wir einen Deduping Resolver verwenden.
+Dabei wird bei der Deserialisierung des zweiten Vorkommens eines Autors mit Namen "JK Rowling" einfach das deserialisierte Objekt des ersten Vorkommens verwendet.
+\class{RestConstants}
+\noChange
+\class{VisAQ}
+\begin{itemize}[noitemsep]
+    \item Ein Feld \textit{public static final String VERSION} wurde der klasse neu hinzugefügt. Die Variable soll nach dem Schema "yyyy.mm.dd\#x" gefüllt werden, wobei der erste Teil das aktuelle datum und x eine fortlaufende Nummer des Tages darstellt. Die Variable wird genutzt um bei aktiven Backends die aktuell arbeitende Version anzuzeigen.
+\end{itemize}
