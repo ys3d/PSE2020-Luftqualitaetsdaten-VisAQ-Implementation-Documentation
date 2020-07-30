@@ -1,8 +1,7 @@
 \subsection{Frontend}
-Grundsätzlich ist das Forntend in großen Teilen schwer automatisiert zu testen.
-Die Controller-Funktionen werden mit einem Test automatisiert auf ihre Richtigkeit überprüft.
-Da lediglich ein Controller für die Kommunikation mit dem Backend existiert reicht hierfür ein Test aus.
-Die Funktionen der View-Klassen lassen sich hingegen schwierig automatisiert testen.
-Dort werden hauptsächlich angezeigte Elemente berechnet.
-Hier haben wir uns dafür entschieden die Funktionalität nicht automatisiert zu testen, stattdessen wurde die Funktionalität im direkten Bedienversuch überprüft.
-Für die Bedientests wurden auch projektfremde Personen hinzugezogen um eine Verzerrung der Ergebnisse zu verhindern.
+Grundsätzlich ist das Frontend in großen Teilen schwer automatisiert zu testen.
+Die Controller-Funktionen werden mit einem Jest Test auf ihre Richtigkeit überprüft.
+Da lediglich ein Controller für die Kommunikation mit dem Backend existiert reicht hierfür ein einzelner Test aus.
+Die Funktionen der View-Klassen lassen sich hingegen nicht durch Jest testen, da es sich hauptsächlich um die Darstellung handelt.
+Hier haben wir uns dafür entschieden die Funktionalität nicht automatisiert zu testen, stattdessen wurde die Funktionalität anhand von Versuchspersonen überprüft.
+Für diesen Usability-Test wurden auch projektfremde Personen hinzugezogen, um eine Verzerrung der Ergebnisse zu verhindern.
