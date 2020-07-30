@@ -2,7 +2,7 @@
 Im Frontend betrachten wir Änderungen nicht Funktionsweise, vielmehr betrachten wir die Umsetzung der Klassen des Entwurfs im praktischen React-Programm.
 Bei der Implementierung des Fronends wurde durch den Wechsel von JSweet zu React einiges an der Art der Implementierung geändert, wobei die angedachte Klassenhierarchie gleich blieb.
 Diese Änderungen liegen der Anpassung des Codes an das \gls{React-Lifecycle} zugrunde. Beispiel hierfür ist die update Methode in der VisAQ Klasse, welche den update der einzelnen Komponenten
-durchgeführt hätte. Diese wurde mit den Methoden componentWillUpdate() etc. von dem \gls{React-Lifecycle} ersetzt. 
+durchgeführt hätte. Diese wurde mit den Methoden componentDidUpdate() etc. von dem \gls{React-Lifecycle} ersetzt. 
 
 \subsubsection{Model}
 \class{DataStream}
@@ -57,7 +57,7 @@ Wurde nicht implementiert.
     Diese Klasse zeigt die \gls{Cookie}Notice als Modal an, und speichert zugleich bei Akzeptanz durch den Benutzer die \gls{Cookie}s.
     Diese beinhalten die gewählte Sprache und den aktuellen Standort des Benutzers.
 \class{InformationView}
-    Diese Klasse wurde nicht implementiert da es sich um ein Wunschkriterium handelt.
+    Diese Klasse wurde nicht implementiert.
 \class{Language}
     Anstatt eine eigene Language implementierung zu schreiben benutzen wir die zwei Dependencies i18n und i18next.
     Diese werden in der Language Klasse initialisiert. 
@@ -75,7 +75,7 @@ Wurde nicht implementiert.
 \class{OverlayFactory}
     \removedClass
 \class{SensorOverlayFactory}
-    In dieser Klasse wird das Overlay mit den Sensoren erstellt. Diese werden mithilfe des Gradienten erstellt.
+    In dieser Klasse wird das Overlay mit den Sensoren eingefärbt. Diese werden mithilfe des Gradienten erstellt.
     Diese Klasse funktioniert wie vorgestellt, nur ohne die OverlayFactory zu implementieren.
  \class{SensorOverview}
     Diese Klasse SensorOverview beinhaltet die in der Sidebar angezeigten Daten für die Diagramme, sowie die allgemeine Darstellung dieser Komponente.
